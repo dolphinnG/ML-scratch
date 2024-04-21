@@ -1,4 +1,5 @@
 
+from matplotlib import pyplot as plt
 import numpy as np
 
 def gaussian_elemination(A, b):
@@ -74,4 +75,28 @@ def pad_diagonal_matrix(S_diag, shape):
     S_padded = np.pad(S_diag, ((0, m - S_diag.shape[0]), (0, n - S_diag.shape[1])))
 
     return S_padded
+def frobenius_distance(A, B):
+    return np.sqrt(np.sum((A-B)**2))
 
+def plot_matrix(A):
+    fig, ax = plt.subplots(1, 1, figsize=(4, 4))
+    ax.imshow(A, cmap='gray')
+
+    for i in range(A.shape[0]):
+        for j in range(A.shape[1]):
+            ax.text(j, i, A[i, j], ha='center', va='center', color='red')
+            
+def convolve(ts, kernel, padding=False):
+    # kernel_gauss = np.array([0,.1,.3,.8,-1,.8,.3,.1,0])
+    kernel_size = len(kernel)
+    inner_ts = ts.copy()
+    ts_size = len(inner_ts)
+    if padding:
+        inner_ts = np.pad(inner_ts, (kernel_size-1,), 'constant')
+    n_steps = ts_size - kernel_size + 1 # number of steps to slide kernel
+    res = np.zeros(n_steps)
+    for i in range(n_steps):
+        signal = ts[i:i+kernel_size]
+        cross_corr = signal.reshape(1,-1) @ kernel
+        res[i] = cross_corr.flatten()[0]
+    return res
