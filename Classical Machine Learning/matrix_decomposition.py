@@ -19,7 +19,7 @@ from sympy import re
 #     return g_Us
 
 def eigen_decomposition_by_QR_approximation(A, n_iter=1000):
-    """the final Q and R will not reconstruct A doing Q@R, 
+    """The final Q and R will not reconstruct A doing Q@R, 
     but still have the eigenvalues approximated on the diagonal of R.
     Q_total is the eigenvectors, R is the eigenvalues diagonal matrix  
     
@@ -41,16 +41,15 @@ def QR_decomposition(A):
 
 def lu_decomposition(A):
     """The function then enters a loop that iterates over each column j of U, except the last one. For each column j, it does the following:
-
-It creates an identity matrix L of the same size as A using the np.eye(n) function. An identity matrix is a square matrix in which all the elements of the principal diagonal are ones and all other elements are zeros.
-
-It calculates a vector gamma of multipliers for the Gaussian elimination. The elements of gamma are the elements of the j-th column of U below the diagonal, divided by the diagonal element U[j, j].
-
-It subtracts gamma times the j-th row of U from the rows of U below the j-th row. This is done by subtracting gamma from the j-th column of L below the diagonal, and then multiplying L and U using the @ operator. This operation transforms U into an upper triangular matrix.
-
+It creates an identity matrix L of the same size as A.
+It calculates a vector gamma of multipliers for the Gaussian elimination. 
+The elements of gamma are the elements of the j-th column of U below the diagonal, divided by the diagonal element U[j, j].
+It subtracts gamma times the j-th row of U from the rows of U below the j-th row. 
+This is done by subtracting gamma from the j-th column of L below the diagonal, and then multiplying L and U . 
+This operation transforms U into an upper triangular matrix.
 It restores the j-th column of L below the diagonal to gamma, effectively storing the multipliers used in the Gaussian elimination.
-
 It appends L to the list Ls."""
+
     n = A.shape[0]
     U = A.copy()
     Ls = []
@@ -76,7 +75,6 @@ def inverse_iteration(A, lambda_approx, num_iterations=10, shift=.01):
     """In the context of the inverse iteration method, the matrix (A - λI) becomes singular 
     when λ is an eigenvalue of A. This is because (A - λI) has a zero determinant when λ is an eigenvalue, 
     which is a characteristic property of eigenvalues.
-
     To avoid this issue, a common approach is to add a small shift σ to the eigenvalue λ when forming the matrix (A - λI). 
     This shift moves λ away from the exact eigenvalue, preventing (A - λI) from becoming singular. 
     The modified matrix becomes (A - (λ+σ)I), 
